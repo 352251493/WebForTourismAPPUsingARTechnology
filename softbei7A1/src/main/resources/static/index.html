@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+<h2>注册</h2>
+<hr/>
+<form method="POST" enctype="multipart/form-data" id="uploadfileform" onsubmit="return uploadfile()">
+    <p>电话
+        <input type="text" name="phone_number" />
+    </p>
+    <p>密码
+        <input type="text" name="password" />
+    </p>
+    <p>姓名
+        <input type="text" name="name" />
+    </p>
+    <p>性别
+        <input type="text" name="gender" />
+    </p>
+    <p>生日
+        <input type="text" name="birth" />
+    </p>
+    <p>
+        文件：<input type="file" name="head_portrait" />
+    </p>
+    <p>
+        <input type="submit" value="注册"/>
+    </p>
+</form>
+
+<h2>登录</h2>
+<hr/>
+<form method="POST" id="loginForm" onsubmit="return login()">
+    <p>电话
+        <input type="text" name="phone_number" id="phone_number" />
+    </p>
+    <p>密码
+        <input type="text" name="password" id="password"/>
+    </p>
+    <p>
+        <input type="submit" value="登录"/>
+    </p>
+</form>
+<h2>修改信息</h2>
+<hr/>
+<form method="POST" onsubmit="return changeUserInfo()">
+    <p>姓名
+        <input type="text" name="change_user_info_name" id="change_user_info_name"/>
+    </p>
+    <p>性别
+        <input type="text" name="change_user_info_gender" id="change_user_info_gender"/>
+    </p>
+    <p>生日
+        <input type="text" name="change_user_info_birth" id="change_user_info_birth"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+<h2>修改头像</h2>
+<hr/>
+<form method="POST" enctype="multipart/form-data" id="updateHeadPortrait" onsubmit="return updateHeadPortrait()">
+    <p>
+        文件：<input type="file" name="head_portrait" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+<h2>修改手机号</h2>
+<hr/>
+<form method="POST" onsubmit="return changeUserPhoneNumber()">
+    <p>手机号
+        <input type="text" name="change_user_phone_number" id="change_user_phone_number"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+<h2>获取用户信息</h2>
+<hr/>
+<input type="button" value="获取用户信息" onclick="getUserInformation()">
+<h2>修改密码</h2>
+<hr/>
+<form method="POST" onsubmit="return resetPassword()">
+    <p>密码
+        <input type="text" name="password" id="reset_password_password"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>忘记密码</h2>
+<hr/>
+<form method="POST" onsubmit="return forgetPassword()">
+    <p>手机号
+        <input type="text" name="phone_number" id="forget_phone_number"/>
+    </p>
+    <p>密码
+        <input type="text" name="password" id="forget_password_password"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>Admin登录</h2>
+<hr/>
+<form method="POST" onsubmit="return adminLogin()">
+    <p>账号
+        <input type="text" name="id" id="admin_login_id"/>
+    </p>
+    <p>密码
+        <input type="text" name="password" id="admin_login_password"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>Admin修改密码</h2>
+<hr/>
+<form method="POST" onsubmit="return adminResetPassword()">
+    <p>密码
+        <input type="text" name="password" id="admin_reset_password_password"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>添加城市</h2>
+<hr/>
+<form method="POST" onsubmit="return addCity()">
+    <p>城市名称
+        <input type="text" name="city_name" id="add_city_city_name"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>添加景点</h2>
+<hr/>
+<form method="POST" enctype="multipart/form-data" id="addSceincArea" onsubmit="return addScenicArea()">
+    <p>城市ID
+        <input type="text" name="city_id" />
+    </p>
+    <p>图片
+        <input type="file" name="sa_img" />
+    </p>
+    <p>AR文件
+        <input type="file" name="sa_ar" />
+    </p>
+    <p>景点简介
+        <input type="text" name="sa_intro" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>获取所有城市信息</h2>
+<hr/>
+<input type="button" value="所有城市信息" onclick="getAllCity()">
+
+<h2>获取城市信息</h2>
+<hr/>
+<form method="GET" onsubmit="return getCityByCityName()">
+    <p>城市名称
+        <input type="text" name="city_name" id="get_city_by_city_name_city_name"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>通过城市ID获取景点信息</h2>
+<hr/>
+<form method="GET" onsubmit="return getScenicAreaByCityId()">
+    <p>城市ID
+        <input type="text" name="city_id" id="get_scenic_area_by_city_id"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>通过城市名称获取景点信息</h2>
+<hr/>
+<form method="GET" onsubmit="return getScenicAreaByCityName()">
+    <p>城市名称
+        <input type="text" name="city_name" id="get_scenic_area_by_city_name"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>通过景点ID获取景点信息</h2>
+<hr/>
+<form method="GET" onsubmit="return getScenicAreaBySaId()">
+    <p>景点ID
+        <input type="text" name="sa_id" id="get_scenic_area_by_sa_id_sa_id"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>添加旅行计划</h2>
+<hr/>
+<form method="POST" onsubmit="return addTravelPlan()">
+    <p>城市ID
+        <input type="text" name="city_id" id="add_travel_plan_city_id" />
+    </p>
+    <p>出行方式
+        <input type="text" name="vehicle" id="add_travel_plan_vehicle" />
+    </p>
+    <p>开始时间
+        <input type="text" name="begin_date" id="add_travel_plan_begin_date" />
+    </p>
+    <p>结束时间
+        <input type="text" name="end_date" id="add_travel_plan_end_date" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>获取所有旅行计划</h2>
+<hr/>
+<input type="button" value="所有旅行计划" onclick="getAllTravelPlan()">
+
+<h2>修改旅行计划</h2>
+<hr/>
+<form method="POST" onsubmit="return updateTravelPlan()">
+    <p>城市ID
+        <input type="text" name="city_id" id="update_travel_plan_city_id" />
+    </p>
+    <p>出行方式
+        <input type="text" name="vehicle" id="update_travel_plan_vehicle" />
+    </p>
+    <p>开始时间
+        <input type="text" name="begin_date" id="update_travel_plan_begin_date" />
+    </p>
+    <p>结束时间
+        <input type="text" name="end_date" id="update_travel_plan_end_date" />
+    </p>
+    <p>旅行计划ID
+        <input type="text" name="travel_id" id="update_travel_plan_travel_id" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>通过旅行计划ID获取旅行计划信息</h2>
+<hr/>
+<form method="GET" onsubmit="return getTravelPlanByTravelId()">
+    <p>旅行计划ID
+        <input type="text" name="travel_id" id="get_travel_plan_by_travel_id_travel_id"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>添加日旅行计划</h2>
+<hr/>
+<form method="POST" onsubmit="return addDayPlan()">
+    <p>旅行计划ID
+        <input type="text" name="travel_id" id="add_day_plan_travel_id" />
+    </p>
+    <p>景点ID
+        <input type="text" name="scenic_area_id" id="add_day_plan_scenic_area_id" />
+    </p>
+    <p>出行方式
+        <input type="text" name="vehicle" id="add_day_plan_vehicle" />
+    </p>
+    <p>开始时间
+        <input type="text" name="begin_time" id="add_day_plan_begin_time" />
+    </p>
+    <p>结束时间
+        <input type="text" name="end_time" id="add_day_plan_end_day" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>删除旅行计划</h2>
+<hr/>
+<form method="POST" onsubmit="return deleteTravelPlan()">
+    <p>旅行计划ID
+        <input type="text" name="travel_id" id="delete_travel_plan_travel_id" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+
+<h2>根据旅行计划ID获得日计划</h2>
+<hr/>
+<form method="POST" onsubmit="return getDayPlanByTravelId()">
+    <p>旅行计划ID
+        <input type="text" name="travel_id" id="get_day_plan_by_travel_id_travel_id" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>根据旅行日计划ID获得日计划</h2>
+<hr/>
+<form method="POST" onsubmit="return getDayPlanByDayId()">
+    <p>旅行日计划ID
+        <input type="text" name="day_id" id="get_day_plan_by_day_id_day_id" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>修改日计划</h2>
+<hr/>
+<form method="POST" onsubmit="return updateDayPlan()">
+    <p>旅行日计划ID
+        <input type="text" name="day_id" id="update_day_plan_day_id" />
+    </p>
+    <p>景区ID
+        <input type="text" name="scenic_area_id" id="update_day_plan_scenic_area_id" />
+    </p>
+    <p>出行方式
+        <input type="text" name="vehicle" id="update_day_plan_vehicle" />
+    </p>
+    <p>开始时间
+        <input type="text" name="begin_time" id="update_day_plan_begin_time" />
+    </p>
+    <p>结束时间
+        <input type="text" name="end_time" id="update_day_plan_end_time" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>删除旅行日计划</h2>
+<hr/>
+<form onsubmit="return deleteDayPlan()">
+    <p>旅行日计划ID
+        <input type="text" name="day_id" id="deleteDayPlanDayId" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>添加明信片</h2>
+<hr/>
+<form method="POST" enctype="multipart/form-data" id="addPostCard" onsubmit="return addPostCard()">
+    <p>城市ID
+        <input type="text" name="city_id" />
+    </p>
+    <p>图片
+        <input type="file" name="image" />
+    </p>
+    <p>寄语
+        <input type="text" name="send_word" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>获取所有明信片</h2>
+<hr/>
+<input type="button" value="所有明信片信息" onclick="getAllPostCard()">
+
+<h2>查询明信片</h2>
+<hr/>
+<form method="POST" onsubmit="return getPostCard()">
+    <p>明信片ID
+        <input type="text" name="pc_id" id="getPostCardPcId" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>修改明信片</h2>
+<hr/>
+<form method="POST" onsubmit="return updatePostCard()">
+    <p>明信片ID
+        <input type="text" name="pc_id" id="updatePostCardPcId"/>
+    </p>
+    <p>城市ID
+        <input type="text" name="city_id" id="updatePostCardCityId"/>
+    </p>
+    <p>寄语
+        <input type="text" name="send_word" id="updatePostCardSendWord"/>
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>修改明信片图片</h2>
+<hr/>
+<form method="POST" enctype="multipart/form-data" id="updatePostCardImage" onsubmit="return updatePostCardImage()">
+    <p>明信片ID
+        <input type="text" name="pc_id" />
+    </p>
+    <p>图片
+        <input type="file" name="image" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>删除明信片</h2>
+<hr/>
+<form method="POST" onsubmit="return deletePostCard()">
+    <p>明信片ID
+        <input type="text" name="pc_id" id="delete_post_card_pc_id" />
+    </p>
+    <p>
+        <input type="submit" value="确定"/>
+    </p>
+</form>
+
+<h2>退出登录</h2>
+<hr/>
+<input type="button" value="退出" onclick="signOut()">
+<script src="js/jquery-1.10.1.min.js"></script>
+<script src="js/upload.js"></script>
+</body>
+</html>
