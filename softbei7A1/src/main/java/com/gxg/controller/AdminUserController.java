@@ -3,10 +3,7 @@ package com.gxg.controller;
 import com.gxg.services.AdminUserService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,5 +26,15 @@ public class AdminUserController {
     @PostMapping(value = "/reset_password")
     public String resetPassword(@RequestParam("password") String password, HttpServletRequest request) {
         return adminUserService.resetPassword(password, request);
+    }
+
+    @GetMapping(value = "/get_information")
+    public String getInformation(HttpServletRequest request) {
+        return adminUserService.getInformation(request);
+    }
+
+    @PostMapping(value = "/lay_out")
+    public String layOut(HttpServletRequest request) {
+        return adminUserService.layOut(request);
     }
 }

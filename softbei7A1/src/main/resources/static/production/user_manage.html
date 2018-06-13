@@ -40,7 +40,7 @@
               </div>
               <div class="profile_info">
                 <span>欢迎您,</span>
-                <h2>Admin</h2>
+                <h2 id="admin-user-name1">----</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -99,11 +99,11 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">Admin
+                    <img src="images/img.jpg" alt=""><span id="admin-user-name2">----</span>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> 修改密码</a></li>
+                    <li id="admin-user-reset-password"><a href="javascript:;"> 修改密码</a></li>
                     <!-- <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>
@@ -111,7 +111,7 @@
                       </a>
                     </li>
                     <li><a href="javascript:;">Help</a></li> -->
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
+                    <li id="admin-user-lay-out"><a onclick="layOut();return false;"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
                   </ul>
                 </li>
               </ul>
@@ -166,58 +166,34 @@
                   </div>
                   <div class="x_content">
 
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>用户ID</th>
-                          <th>电话</th>
-						  <th>姓名</th>
-						  <th>性别</th>
-						  <th>生日</th>
-						  <th>头像链接</th>
-                          <th>操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">user_20180611203033012</th>
-                          <td>15754359133</td>
-						  <td>郭欣光</td>
-						  <td>男</td>
-						  <td>1996-10-17</td>
-						  <td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>
-                          <td>
-							<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;
-							<button type="button" class="btn btn-danger">删除</button>
-						  </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">user_20180611203033012</th>
-                          <td>15754359133</td>
-						  <td>郭欣光</td>
-						  <td>男</td>
-						  <td>1996-10-17</td>
-						  <td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>
-                          <td>
-							<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;
-							<button type="button" class="btn btn-danger">删除</button>
-						  </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">user_20180611203033012</th>
-                          <td>15754359133</td>
-						  <td>郭欣光</td>
-						  <td>男</td>
-						  <td>1996-10-17</td>
-						  <td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>
-                          <td>
-							<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;
-							<button type="button" class="btn btn-danger">删除</button>
-						  </td>
-                        </tr>
-                      </tbody>
+                    <table class="table" id="user-information">
+                      <!--<thead>-->
+                        <!--<tr>-->
+                          <!--<th>用户ID</th>-->
+                          <!--<th>电话</th>-->
+						  <!--<th>姓名</th>-->
+						  <!--<th>性别</th>-->
+						  <!--<th>生日</th>-->
+						  <!--<th>头像链接</th>-->
+                          <!--<th>操作</th>-->
+                        <!--</tr>-->
+                      <!--</thead>-->
+                      <!--<tbody>-->
+                        <!--<tr>-->
+                          <!--<th scope="row">user_20180611203033012</th>-->
+                          <!--<td>15754359133</td>-->
+						  <!--<td>小李</td>-->
+						  <!--<td>男</td>-->
+						  <!--<td>1996-10-17</td>-->
+						  <!--<td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>-->
+                          <!--<td>-->
+							<!--<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;-->
+							<!--<button type="button" class="btn btn-danger">删除</button>-->
+						  <!--</td>-->
+                        <!--</tr>-->
+                      <!--</tbody>-->
                     </table>
-					<div class="pull-right"><button type="button" class="btn btn-success">添加</button></div>
+					<div class="pull-right"><button type="button" class="btn btn-success" onclick="addUserHref();">添加</button></div>
 					<div class="clearfix"></div>
                   </div>
                 </div>
@@ -608,6 +584,152 @@
       </div>
     </div>
 
+    <a data-toggle="modal" data-target="#resetPasswordForm" id="resetPasswordFormHref" onclick="return false;"></a>
+    <div class="modal fade" id="resetPasswordForm" tabindex="-1" role="dialog" aria-labelledby="resetPasswordFormLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="uploadExperimentalReportFormClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="uploadExperimentalReportFormLabel">修改密码</h4>
+          </div>
+          <div class="modal-body">
+            <form id="uploadExperimentalReportForm1" method="POST" enctype="multipart/form-data">
+              <input type="hidden" value="" name="admin-user-id" id="admin-user-id">
+              <div class="form-group">
+                <label for="old-password" class="control-label">原密码:</label>
+                <input type="password" class="form-control" id="old-password" name="old-password">
+                <label for="new-password" class="control-label">新密码:</label>
+                <input type="password" class="form-control" id="new-password" name="new-password">
+                <label for="repeat-password" class="control-label">重复密码:</label>
+                <input type="password" class="form-control" id="repeat-password" name="repeat-password">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="resetPassword()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a data-toggle="modal" data-target="#addUserForm" id="addUserFormHref" onclick="return false;"></a>
+    <div class="modal fade" id="addUserForm" tabindex="-1" role="dialog" aria-labelledby="addUserFormLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="addScenicAreaFormClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="addScenicAreaFormLabel">添加用户</h4>
+          </div>
+          <div class="modal-body">
+            <form id="addUserForm1" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="add-user-phone-number" class="control-label">手机号:</label>
+                <input type="text" class="form-control" id="add-user-phone-number" name="phone_number" maxlength="11" minlength="11">
+                <label for="add-user-password" class="control-label">密码:</label>
+                <input type="password" class="form-control" id="add-user-password" name="password">
+                <label for="add-user-repeat-password" class="control-label">重复密码:</label>
+                <input type="password" class="form-control" id="add-user-repeat-password" name="repeat_password">
+                <label for="add-user-name" class="control-label">姓名:</label>
+                <input type="text" class="form-control" id="add-user-name" name="name">
+                <label for="add-user-gender" class="control-label">性别:</label>
+                <div id="add-user-gender" class="form-control">
+                  <input type="radio" id="add-user-gender-man" name="gender" value="男" checked>男&nbsp;&nbsp;
+                  <input type="radio" id="add-user-gender-woman" name="gender" value="女">女
+                </div>
+                <label for="add-user-birth" class="control-label">生日:</label>
+                <input type="text" class="form-control" id="add-user-birth" name="birth">
+                <label for="add-user-head-portrait" class="control-label">头像:</label>
+                <input type="file" class="form-control" id="add-user-head-portrait" name="head_portrait" accept="image/*">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="addUser()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a data-toggle="modal" data-target="#editUser" id="editUserHref" onclick="return false;"></a>
+    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="editUserLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="editUserClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editUserLabel">选择修改内容</h4>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" value="" name="edit-user-user-id" id="edit-user-user-id">
+            <center>
+              <button type="button" class="btn btn-primary" onclick="editUserInformationHref();">修改用户信息</button>
+              <button type="button" class="btn btn-success" onclick="editUserHeadPortraitHref();">重传头像</button>
+            </center>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a data-toggle="modal" data-target="#editUserInformation" id="editUserInformationHref" onclick="return false;"></a>
+    <div class="modal fade" id="editUserInformation" tabindex="-1" role="dialog" aria-labelledby="editUserInformationLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="editUserInformationClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editUserInformationLabel">修改用户信息</h4>
+          </div>
+          <div class="modal-body">
+            <form id="editUserInformation1" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="edit-user-information-phone-number" class="control-label">手机号:</label>
+                <input type="text" class="form-control" id="edit-user-information-phone-number" name="phone_number" maxlength="11" minlength="11">
+                <label for="edit-user-information-name" class="control-label">姓名:</label>
+                <input type="text" class="form-control" id="edit-user-information-name" name="name">
+                <label for="edit-user-information-gender" class="control-label">性别:</label>
+                <div id="edit-user-information-gender" class="form-control">
+                  <input type="radio" id="edit-user-information-gender-man" name="gender" value="男" checked>男&nbsp;&nbsp;
+                  <input type="radio" id="edit-user-information-gender-woman" name="gender" value="女">女
+                </div>
+                <label for="edit-user-information-birth" class="control-label">生日:</label>
+                <input type="text" class="form-control" id="edit-user-information-birth" name="birth">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="editUserInformation();">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a data-toggle="modal" data-target="#editUserHeadPortrait" id="editUserHeadPortraitHref" onclick="return false;"></a>
+    <div class="modal fade" id="editUserHeadPortrait" tabindex="-1" role="dialog" aria-labelledby="editUserHeadPortraitLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="editUserHeadPortraitClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editUserHeadPortraitLabel">重传头像</h4>
+          </div>
+          <div class="modal-body">
+            <form id="editUserHeadPortrait1" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="edit-user-head-portrait-head-portrait" class="control-label">头像:</label>
+                <input type="file" class="form-control" id="edit-user-head-portrait-head-portrait" name="head_portrait" accept="image/*">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="editUserHeadPortrait()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -621,5 +743,8 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <script src="js/user_information.js"></script>
+    <script src="js/user_manage.js"></script>
   </body>
 </html>

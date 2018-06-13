@@ -62,4 +62,24 @@ public class UserController {
     public String signOut(HttpServletRequest request) {
         return userService.signOut(request);
     }
+
+    @GetMapping(value = "/get_all")
+    public String getAllUser(HttpServletRequest request) {
+        return userService.getAllUser(request);
+    }
+
+    @PostMapping("/admin/update/user_information/user_id/{userId}")
+    public String updateUserInformationByAdmin(@PathVariable String userId, @RequestParam("phone_number") String phoneNumber, @RequestParam("name") String name, @RequestParam("gender") String gender, @RequestParam("birth") String birth, HttpServletRequest request) {
+        return userService.updateUserInformationByAdmin(userId, phoneNumber, name, gender, birth, request);
+    }
+
+    @PostMapping(value = "/admin/update/head_portrait/user_id/{userId}")
+    public String updateHeadPortraitByAdmin(@PathVariable String userId, @RequestParam("head_portrait") MultipartFile headPortrait, HttpServletRequest request) {
+        return userService.updateHeadPortraitByAdmin(userId, headPortrait, request);
+    }
+
+    @PostMapping(value = "/admin/delete/user_id/{userId}")
+    public String deleteUser(@PathVariable String userId, HttpServletRequest request) {
+        return userService.deleteUser(userId, request);
+    }
 }

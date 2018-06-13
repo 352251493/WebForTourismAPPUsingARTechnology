@@ -1,7 +1,8 @@
 package com.gxg.services;
 
-import com.gxg.dao.CityDao;
-import com.gxg.entities.City;
+import com.gxg.dao.*;
+import com.gxg.entities.*;
+import javafx.geometry.Pos;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,27 @@ public class CityService {
 
     @Autowired
     private CityDao cityDao;
+
+    @Autowired
+    private TravelPlanDao travelPlanDao;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private ScenicAreaService scenicAreaService;
+
+    @Autowired
+    private ScenicAreaDao scenicAreaDao;
+
+    @Autowired
+    private TravelPlanService travelPlanService;
+
+    @Autowired
+    private PostCardDao postCardDao;
+
+    @Autowired
+    private PostCardService postCardService;
 
     public synchronized String addCity(String cityName, HttpServletRequest request) {
         JSONObject jsonObject = new JSONObject();
@@ -105,6 +127,104 @@ public class CityService {
             jsonObject.accumulate("city", cityJsonObject);
         }
         jsonObject.accumulate("status", status);
+        return jsonObject.toString();
+    }
+
+    public String update(String cityId, String cityName, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        String status = "success";
+        String message;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("admin_user") == null) {
+            status = "error";
+            message = "管理员未登录！";
+        } else {
+            if (cityDao.getCountByCityId(cityId) == 0) {
+                status = "error";
+                message = "该城市不存在！";
+            } else {
+                if (cityName == null || "".equals(cityName)) {
+                    status = "error";
+                    message = "城市名称不能为空！";
+                } else {
+                    if (cityId.length() > 100) {
+                        status = "error";
+                        message = "城市名称长度大于100！";
+                    } else {
+                        City city = cityDao.getCityByCityId(cityId);
+                        city.setCityName(cityName);
+                        try {
+                            cityDao.updateCity(city);
+                            message = "修改成功！";
+                        } catch (Exception e) {
+                            System.out.println(e);
+                            status = "error";
+                            message = "修改失败，操作数据库失败！";
+                        }
+                    }
+                }
+            }
+        }
+        jsonObject.accumulate("status", status);
+        jsonObject.accumulate("message", message);
+        return jsonObject.toString();
+    }
+
+    public String deleteCity(String cityId, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        String status = "success";
+        String message;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("admin_user") == null) {
+            status = "error";
+            message = "管理员未登录！";
+        } else {
+            if (cityDao.getCountByCityId(cityId) == 0) {
+                status = "error";
+                message = "没有该城市！";
+            } else {
+                City city = cityDao.getCityByCityId(cityId);
+                if (travelPlanDao.getCountByCityId(cityId) != 0) {
+                    List<TravelPlan> travelPlanList = travelPlanDao.getTravelPlanByCityId(cityId);
+                    for (TravelPlan travelPlan : travelPlanList) {
+                        if (userDao.getCountByUserId(travelPlan.getUserId()) != 0) {
+                            User user = userDao.getUserByUserId(travelPlan.getUserId());
+                            session.setAttribute("user", user);
+                            JSONObject deleteTravelPlanResult = new JSONObject(travelPlanService.deleteTravelPlan(travelPlan.getTravelId(), request));
+                            System.out.println("删除城市过程中删除旅行计划结果：" + deleteTravelPlanResult.toString());
+                        }
+                    }
+                }
+                if (scenicAreaDao.getCountByCityId(cityId) != 0) {
+                    List<ScenicArea> scenicAreaList = scenicAreaDao.getScenicAreaByCityId(cityId);
+                    for (ScenicArea scenicArea : scenicAreaList) {
+                        JSONObject deleteScenicAreaReqult = new JSONObject(scenicAreaService.deleteScenicArea(scenicArea.getSaId(), request));
+                        System.out.println("删除城市时删除景点信息结果：" + deleteScenicAreaReqult);
+                    }
+                }
+                if (postCardDao.getCountByCityId(cityId) != 0) {
+                    List<PostCard> postCardList = postCardDao.getPostCardByCityId(cityId);
+                    for (PostCard postCard : postCardList) {
+                        if (userDao.getCountByUserId(postCard.getUserId()) != 0) {
+                            User user = userDao.getUserByUserId(postCard.getUserId());
+                            session.setAttribute("user", user);
+                            JSONObject deletePostCardResult = new JSONObject(postCardService.deletePostCard(postCard.getPcId(), request));
+                            System.out.println("删除城市过程中删除明信片结果：" + deletePostCardResult.toString());
+                        }
+                    }
+                }
+                try {
+                    cityDao.deleteCity(city);
+                    message = "删除成功！";
+                } catch (Exception e) {
+                    System.out.println(e);
+                    status = "error";
+                    message = "删除失败，操作数据库失败！该城市景点、用户基于该城市生成的明信片、用户基于该城市的旅行计划、旅行日计划可能已经被删除！";
+                }
+            }
+        }
+        jsonObject.accumulate("status", status);
+        jsonObject.accumulate("message", message);
         return jsonObject.toString();
     }
 }

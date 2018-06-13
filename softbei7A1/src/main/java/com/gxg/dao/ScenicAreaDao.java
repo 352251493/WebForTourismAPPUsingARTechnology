@@ -70,4 +70,37 @@ public class ScenicAreaDao {
         }, saId);
         return scenicArea;
     }
+
+    public int getCount() {
+        String sql = "select count(*) from scenic_area";
+        int rowCount = jdbcTemplate.queryForObject(sql, Integer.class);
+        return rowCount;
+    }
+
+    public List<ScenicArea> getAllScenicArea() {
+        String sql = "select * from scenic_area";
+        List<ScenicArea> scenicAreaList = jdbcTemplate.query(sql, new RowMapper<ScenicArea>() {
+            @Override
+            public ScenicArea mapRow(ResultSet resultSet, int i) throws SQLException {
+                ScenicArea scenicArea = new ScenicArea();
+                scenicArea.setSaId(resultSet.getString("sa_id"));
+                scenicArea.setCityId(resultSet.getString("city_id"));
+                scenicArea.setSaImg(resultSet.getString("sa_img"));
+                scenicArea.setSaAr(resultSet.getString("sa_ar"));
+                scenicArea.setSaIntro(resultSet.getString("sa_intro"));
+                return scenicArea;
+            }
+        });
+        return scenicAreaList;
+    }
+
+    public void updateScenicArea(ScenicArea scenicArea) {
+        String sql = "update scenic_area set city_id=?, sa_img=?, sa_ar=?, sa_intro=? where sa_id=?";
+        jdbcTemplate.update(sql, scenicArea.getCityId(),scenicArea.getSaImg(), scenicArea.getSaAr(), scenicArea.getSaIntro(), scenicArea.getSaId());
+    }
+
+    public void deeteScenicArea(ScenicArea scenicArea) {
+        String sql = "delete from scenic_area where sa_id=?";
+        jdbcTemplate.update(sql, scenicArea.getSaId());
+    }
 }

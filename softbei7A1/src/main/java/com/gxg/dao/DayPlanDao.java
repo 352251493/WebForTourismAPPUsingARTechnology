@@ -82,4 +82,28 @@ public class DayPlanDao {
         String sql = "update day_plan set travel_id=?, scenic_area_id=?, vehicle=?, begin_time=?, end_time=? where day_id=?";
         jdbcTemplate.update(sql, dayPlan.getTravelId(), dayPlan.getScenicAreaId(), dayPlan.getVehicle(), dayPlan.getBeginTime(), dayPlan.getEndTime(), dayPlan.getDayId());
     }
+
+    public int getCountByScenicAreaId(String scenicAreaId) {
+        String sql = "select count(*) from day_plan where scenic_area_id=?";
+        int rowCount = jdbcTemplate.queryForObject(sql, Integer.class, scenicAreaId);
+        return rowCount;
+    }
+
+    public List<DayPlan> getDayPlanByScenicAreaId(String scenicAreaId) {
+        String sql = "select * from day_plan where scenic_area_id=?";
+        List<DayPlan> dayPlanList = jdbcTemplate.query(sql, new RowMapper<DayPlan>() {
+            @Override
+            public DayPlan mapRow(ResultSet resultSet, int i) throws SQLException {
+                DayPlan dayPlan = new DayPlan();
+                dayPlan.setDayId(resultSet.getString("day_id"));
+                dayPlan.setTravelId(resultSet.getString("travel_id"));
+                dayPlan.setScenicAreaId(resultSet.getString("scenic_area_id"));
+                dayPlan.setVehicle(resultSet.getString("vehicle"));
+                dayPlan.setBeginTime(resultSet.getString("begin_time"));
+                dayPlan.setEndTime(resultSet.getString("end_time"));
+                return dayPlan;
+            }
+        }, scenicAreaId);
+        return dayPlanList;
+    }
 }

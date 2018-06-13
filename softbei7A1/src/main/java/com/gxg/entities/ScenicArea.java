@@ -1,5 +1,7 @@
 package com.gxg.entities;
 
+import org.json.JSONObject;
+
 /**
  * Created by 郭欣光 on 2018/6/2.
  */
@@ -51,5 +53,15 @@ public class ScenicArea {
 
     public void setSaIntro(String saIntro) {
         this.saIntro = saIntro;
+    }
+
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.accumulate("sa_id", saId);
+        jsonObject.accumulate("city_id", cityId);
+        jsonObject.accumulate("sa_img", saImg);
+        jsonObject.accumulate("sa_ar", saAr);
+        jsonObject.accumulate("sa_intro", saIntro);
+        return jsonObject;
     }
 }

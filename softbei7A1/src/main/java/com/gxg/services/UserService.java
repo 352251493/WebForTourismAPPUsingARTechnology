@@ -1,6 +1,10 @@
 package com.gxg.services;
 
+import com.gxg.dao.PostCardDao;
+import com.gxg.dao.TravelPlanDao;
 import com.gxg.dao.UserDao;
+import com.gxg.entities.PostCard;
+import com.gxg.entities.TravelPlan;
 import com.gxg.entities.User;
 import com.gxg.utils.CheckTelephone;
 import com.gxg.utils.FileProcess;
@@ -13,9 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 郭欣光 on 2018/5/29.
@@ -29,6 +36,18 @@ public class UserService {
 
     @Value("${user.information.base.dir}")
     private String userInformationBaseDir;
+
+    @Autowired
+    private TravelPlanDao travelPlanDao;
+
+    @Autowired
+    private TravelPlanService travelPlanService;
+
+    @Autowired
+    private PostCardDao postCardDao;
+
+    @Autowired
+    private PostCardService postCardService;
 
     public String login(String phoneNumber, String password, HttpServletRequest request) {
         JSONObject jsonObject = new JSONObject();
@@ -340,6 +359,151 @@ public class UserService {
         String message = "退出成功！";
         HttpSession session = request.getSession();
         session.setAttribute("user", null);
+        jsonObject.accumulate("status", status);
+        jsonObject.accumulate("message", message);
+        return jsonObject.toString();
+    }
+
+    public String getAllUser(HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        String status = "success";
+        HttpSession session = request.getSession();
+        if (session.getAttribute("admin_user") == null) {
+            status = "error";
+            String message = "管理员未登录！";
+            jsonObject.accumulate("message", message);
+        } else {
+            if (userDao.getCount() == 0) {
+                status = "error";
+                String message = "没有用户信息！";
+                jsonObject.accumulate("message", message);
+            } else {
+                List<User> userList = userDao.getAllUser();
+                ArrayList<JSONObject> userArrayList = new ArrayList<>();
+                for (User user : userList) {
+                    userArrayList.add(user.toJson());
+                }
+                jsonObject.accumulate("user_list", userArrayList);
+            }
+        }
+        jsonObject.accumulate("status", status);
+        return jsonObject.toString();
+    }
+
+    public synchronized String updateUserInformationByAdmin(String userId, String phoneNumber, String name, String gender, String birth, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        String status = "success";
+        String message;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("admin_user") == null) {
+            status = "error";
+            message = "管理员未登录！";
+        } else {
+            if (userDao.getCountByUserId(userId) == 0) {
+                status = "error";
+                message = "没有该用户！";
+            } else {
+                User user = userDao.getUserByUserId(userId);
+                session.setAttribute("user", user);
+                JSONObject updateUserBaseInformationResult = new JSONObject(this.updateUserInformation(name, gender, birth, request));
+                if (updateUserBaseInformationResult.getString("status").equals("success")) {
+                    if (user.getPhoneNumber().equals(phoneNumber)) {
+                        message = "修改成功！";
+                    } else {
+                        User user1 = userDao.getUserByUserId(userId);
+                        session.setAttribute("user", user1);
+                        JSONObject updateUserPhoneNumberResult = new JSONObject(this.updateUserPhoneNumber(phoneNumber, request));
+                        if (updateUserPhoneNumberResult.getString("status").equals("success")) {
+                            message = "修改成功！";
+                        } else {
+                            status = "error";
+                            message = "修改手机号失败：" + updateUserPhoneNumberResult.getString("message") + "但是除手机号之外的其他信息修改成功！";
+                        }
+                    }
+                } else {
+                    status = "error";
+                    message = updateUserBaseInformationResult.getString("message");
+                }
+            }
+        }
+        jsonObject.accumulate("status", status);
+        jsonObject.accumulate("message", message);
+        return jsonObject.toString();
+    }
+
+    public String updateHeadPortraitByAdmin(String userId, MultipartFile headPortrait, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        String status = "success";
+        String message;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("admin_user") == null) {
+            status = "error";
+            message = "管理员未登录！";
+        } else {
+            if (userDao.getCountByUserId(userId) == 0) {
+                status = "error";
+                message = "没有该用户！";
+            } else {
+                User user = userDao.getUserByUserId(userId);
+                session.setAttribute("user", user);
+                JSONObject updateHeadPortraitResult = new JSONObject(this.updateHeadPortrait(headPortrait, request));
+                if (updateHeadPortraitResult.getString("status").equals("success")) {
+                    message = "修改成功！";
+                } else {
+                    status = "error";
+                    message = updateHeadPortraitResult.getString("message");
+                }
+            }
+        }
+        jsonObject.accumulate("status", status);
+        jsonObject.accumulate("message", message);
+        return jsonObject.toString();
+    }
+
+    public String deleteUser(String userId, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        String status = "success";
+        String message;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("admin_user") == null) {
+            status = "error";
+            message = "管理员未登录！";
+        } else {
+            if (userDao.getCountByUserId(userId) == 0) {
+                status = "error";
+                message = "没有该用户！";
+            } else {
+                User user = userDao.getUserByUserId(userId);
+                session.setAttribute("user", user);
+                if (travelPlanDao.getCountByUserId(userId) != 0) {
+                    List<TravelPlan> travelPlanList = travelPlanDao.getTravelPlanByUserId(userId);
+                    for (TravelPlan travelPlan : travelPlanList) {
+                        JSONObject deleteTravelPlanResult = new JSONObject(travelPlanService.deleteTravelPlan(travelPlan.getTravelId(), request));
+                        System.out.println("删除用户时删除该用户的旅行计划结果：" + deleteTravelPlanResult.toString());
+                    }
+                }
+                if (postCardDao.getCountByUserId(userId) != 0) {
+                    List<PostCard> postCardList = postCardDao.getPostCardByUserId(userId);
+                    for (PostCard postCard : postCardList) {
+                        JSONObject deletePostCardResult = new JSONObject(postCardService.deletePostCard(postCard.getPcId(), request));
+                        System.out.println("删除用户时删除该用户的明信片结果：" + deletePostCardResult);
+                    }
+                }
+                String headPortrait = user.getHeadPortrait();
+                String headPortraitType = headPortrait.substring(headPortrait.lastIndexOf(".") + 1);//获取文件后缀名
+                String uploadDir = userInformationBaseDir + "/head_portrait/";
+                String headPortraitName = userId + "." + headPortraitType;
+                JSONObject deleteHeadPortraitResult = new JSONObject(FileProcess.deleteFile(uploadDir + headPortraitName));
+                System.out.println("删除头像结果：" + deleteHeadPortraitResult.toString());
+                try {
+                    userDao.deleteUser(user);
+                    message = "删除成功！";
+                } catch (Exception e) {
+                    status = "error";
+                    message = "删除失败，操作数据库失败！该用户的旅行计划、明信片可能已经被删除！";
+                }
+            }
+        }
         jsonObject.accumulate("status", status);
         jsonObject.accumulate("message", message);
         return jsonObject.toString();

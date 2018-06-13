@@ -82,4 +82,27 @@ public class PostCardDao {
         String sql = "delete from post_card where pc_id=?";
         jdbcTemplate.update(sql, postCard.getPcId());
     }
+
+    public int getCountByCityId(String cityId) {
+        String sql = "select count(*) from post_card where city_id=?";
+        int rowCount = jdbcTemplate.queryForObject(sql, Integer.class, cityId);
+        return rowCount;
+    }
+
+    public List<PostCard> getPostCardByCityId(String cityId) {
+        String sql = "select * from post_card where city_id=?";
+        List<PostCard> postCardList = jdbcTemplate.query(sql, new RowMapper<PostCard>() {
+            @Override
+            public PostCard mapRow(ResultSet resultSet, int i) throws SQLException {
+                PostCard postCard = new PostCard();
+                postCard.setPcId(resultSet.getString("pc_id"));
+                postCard.setCityId(resultSet.getString("city_id"));
+                postCard.setUserId(resultSet.getString("user_id"));
+                postCard.setImage(resultSet.getString("image"));
+                postCard.setSendWord(resultSet.getString("send_word"));
+                return postCard;
+            }
+        }, cityId);
+        return postCardList;
+    }
 }

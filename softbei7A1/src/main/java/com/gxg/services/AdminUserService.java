@@ -57,6 +57,7 @@ public class AdminUserService {
             adminUser.setPassword(Md5.md5(password));
             try {
                 adminUserDao.updateAdminUser(adminUser);
+                session.setAttribute("admin_user", null);
             } catch (Exception e) {
                 System.out.println(e);
                 status  = "error";
@@ -66,6 +67,33 @@ public class AdminUserService {
                 session.setAttribute("admin_user", adminUser);
             }
         }
+        jsonObject.accumulate("status", status);
+        jsonObject.accumulate("message", message);
+        return jsonObject.toString();
+    }
+
+    public String getInformation(HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        String status = "success";
+        HttpSession session = request.getSession();
+        if (session.getAttribute("admin_user") == null) {
+            status = "error";
+            String message = "用户未登录！";
+            jsonObject.accumulate("message", message);
+        } else {
+            AdminUser adminUser = (AdminUser)session.getAttribute("admin_user");
+            jsonObject.accumulate("admin_user", adminUser.toJson());
+        }
+        jsonObject.accumulate("status", status);
+        return jsonObject.toString();
+    }
+
+    public String layOut(HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        String status = "success";
+        String message = "退出成功！";
+        HttpSession session = request.getSession();
+        session.setAttribute("admin_user", null);
         jsonObject.accumulate("status", status);
         jsonObject.accumulate("message", message);
         return jsonObject.toString();

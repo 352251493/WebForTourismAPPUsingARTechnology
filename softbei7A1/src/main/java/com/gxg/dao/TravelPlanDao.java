@@ -1,6 +1,7 @@
 package com.gxg.dao;
 
 import com.gxg.entities.TravelPlan;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -81,5 +82,29 @@ public class TravelPlanDao {
     public void deleteTravelPlan(TravelPlan travelPlan) {
         String sql = "delete from travel_plan where travel_id=?";
         jdbcTemplate.update(sql, travelPlan.getTravelId());
+    }
+
+    public int getCountByCityId(String cityId) {
+        String sql = "select count(*) from travel_plan where city_id=?";
+        int rowCount = jdbcTemplate.queryForObject(sql, Integer.class, cityId);
+        return rowCount;
+    }
+
+    public List<TravelPlan> getTravelPlanByCityId(String cityId) {
+        String sql = "select * from travel_plan where city_id=?";
+        List<TravelPlan> travelPlanList = jdbcTemplate.query(sql, new RowMapper<TravelPlan>() {
+            @Override
+            public TravelPlan mapRow(ResultSet resultSet, int i) throws SQLException {
+                TravelPlan travelPlan = new TravelPlan();
+                travelPlan.setCityId(resultSet.getString("city_id"));
+                travelPlan.setVehicle(resultSet.getString("vehicle"));
+                travelPlan.setBeginDate(resultSet.getString("begin_date"));
+                travelPlan.setEndDate(resultSet.getString("end_date"));
+                travelPlan.setTravelId(resultSet.getString("travel_id"));
+                travelPlan.setUserId(resultSet.getString("user_id"));
+                return travelPlan;
+            }
+        }, cityId);
+        return travelPlanList;
     }
 }

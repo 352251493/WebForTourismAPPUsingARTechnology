@@ -40,7 +40,7 @@
               </div>
               <div class="profile_info">
                 <span>欢迎您,</span>
-                <h2>Admin</h2>
+                <h2 id="admin-user-name1">----</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -99,11 +99,11 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">Admin
+                    <img src="images/img.jpg" alt=""><span id="admin-user-name2">----</span>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> 修改密码</a></li>
+                    <<li id="admin-user-reset-password"><a href="javascript:;"> 修改密码</a></li>
                     <!-- <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>
@@ -111,7 +111,7 @@
                       </a>
                     </li>
                     <li><a href="javascript:;">Help</a></li> -->
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
+                    <li id="admin-user-lay-out"><a onclick="layOut();return false;"><i class="fa fa-sign-out pull-right"></i>退出</a></li>
                   </ul>
                 </li>
               </ul>
@@ -166,54 +166,54 @@
                   </div>
                   <div class="x_content">
 
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>景点ID</th>
-                          <th>所在城市ID</th>
-						  <th>景点图片链接</th>
-						  <th>景点AR文件链接</th>
-						  <th>景点简介</th>
-                          <th>操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">sa_20180611203033012</th>
-                          <td>city_20180611203032034</td>
-						  <td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>
-						  <td><a href='' target="_blank">/imformation/huohouho.ar</a></td>
-						  <td>风景优美</td>
-                          <td>
-							<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;
-							<button type="button" class="btn btn-danger">删除</button>
-						  </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">sa_20180611203032034</th>
-                          <td>city_20180611203032034</td>
-						  <td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>
-						  <td><a href='' target="_blank">/imformation/huohouho.ar</a></td>
-						  <td>风景优美</td>
-                          <td>
-							<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;
-							<button type="button" class="btn btn-danger">删除</button>
-						  </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">sa_20180523201211013</th>
-                          <td>city_20180611203032034</td>
-						  <td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>
-						  <td><a href='' target="_blank">/imformation/huohouho.ar</a></td>
-						  <td>风景优美</td>
-                          <td>
-							<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;
-							<button type="button" class="btn btn-danger">删除</button>
-						  </td>
-                        </tr>
-                      </tbody>
+                    <table class="table" id="scenic-information">
+                      <!--<thead>-->
+                        <!--<tr>-->
+                          <!--<th>景点ID</th>-->
+                          <!--<th>所在城市ID</th>-->
+						  <!--<th>景点图片链接</th>-->
+						  <!--<th>景点AR文件链接</th>-->
+						  <!--<th>景点简介</th>-->
+                          <!--<th>操作</th>-->
+                        <!--</tr>-->
+                      <!--</thead>-->
+                      <!--<tbody>-->
+                        <!--<tr>-->
+                          <!--<th scope="row">sa_20180611203033012</th>-->
+                          <!--<td>city_20180611203032034</td>-->
+						  <!--<td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>-->
+						  <!--<td><a href='' target="_blank">/imformation/huohouho.ar1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</a></td>-->
+						  <!--<td>风景优美</td>-->
+                          <!--<td>-->
+							<!--<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;-->
+							<!--<button type="button" class="btn btn-danger">删除</button>-->
+						  <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                          <!--<th scope="row">sa_20180611203032034</th>-->
+                          <!--<td>city_20180611203032034</td>-->
+						  <!--<td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>-->
+						  <!--<td><a href='' target="_blank">/imformation/huohouho.ar</a></td>-->
+						  <!--<td>风景优美</td>-->
+                          <!--<td>-->
+							<!--<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;-->
+							<!--<button type="button" class="btn btn-danger">删除</button>-->
+						  <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                          <!--<th scope="row">sa_20180523201211013</th>-->
+                          <!--<td>city_20180611203032034</td>-->
+						  <!--<td><a href='img/img.jpg' target="_blank">img/img.jpg</a></td>-->
+						  <!--<td><a href='' target="_blank">/imformation/huohouho.ar</a></td>-->
+						  <!--<td>风景优美</td>-->
+                          <!--<td>-->
+							<!--<button type="button" class="btn btn-primary">修改</button>&nbsp;&nbsp;-->
+							<!--<button type="button" class="btn btn-danger">删除</button>-->
+						  <!--</td>-->
+                        <!--</tr>-->
+                      <!--</tbody>-->
                     </table>
-					<div class="pull-right"><button type="button" class="btn btn-success">添加</button></div>
+					<div class="pull-right"><button type="button" class="btn btn-success" onclick="addScenicAreaHref();">添加</button></div>
 					<div class="clearfix"></div>
                   </div>
                 </div>
@@ -604,6 +604,161 @@
       </div>
     </div>
 
+    <a data-toggle="modal" data-target="#resetPasswordForm" id="resetPasswordFormHref" onclick="return false;"></a>
+    <div class="modal fade" id="resetPasswordForm" tabindex="-1" role="dialog" aria-labelledby="resetPasswordFormLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="uploadExperimentalReportFormClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="uploadExperimentalReportFormLabel">修改密码</h4>
+          </div>
+          <div class="modal-body">
+            <form id="uploadExperimentalReportForm1" method="POST" enctype="multipart/form-data">
+              <input type="hidden" value="" name="admin-user-id" id="admin-user-id">
+              <div class="form-group">
+                <label for="old-password" class="control-label">原密码:</label>
+                <input type="password" class="form-control" id="old-password" name="old-password">
+                <label for="new-password" class="control-label">新密码:</label>
+                <input type="password" class="form-control" id="new-password" name="new-password">
+                <label for="repeat-password" class="control-label">重复密码:</label>
+                <input type="password" class="form-control" id="repeat-password" name="repeat-password">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="resetPassword()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a data-toggle="modal" data-target="#addScenicAreaForm" id="addScenicAreaFormHref" onclick="return false;"></a>
+    <div class="modal fade" id="addScenicAreaForm" tabindex="-1" role="dialog" aria-labelledby="addScenicAreaFormLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="addScenicAreaFormClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="addScenicAreaFormLabel">添加景点</h4>
+          </div>
+          <div class="modal-body">
+            <form id="addScenicAreaForm1" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="add-scenic-area-city-list" class="control-label">所在城市:</label>
+                <select id="add-scenic-area-city-list" name="city_id" class="form-control">
+                </select>
+                <label for="add-scenic-area-img" class="control-label">景点图片:</label>
+                <input type="file" class="form-control" id="add-scenic-area-img" name="sa_img" accept="image/*">
+                <label for="add-scenic-area-ar" class="control-label">景点AR文件:</label>
+                <input type="file" class="form-control" id="add-scenic-area-ar" name="sa_ar">
+                <label for="add-scenic-area-intro" class="control-label">景点简介:</label>
+                <textarea rows="4" name="sa_intro" id="add-scenic-area-intro" class="control-label"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="addScenicArea()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <a data-toggle="modal" data-target="#editScenicArea" id="editScenicAreaHref" onclick="return false;"></a>
+    <div class="modal fade" id="editScenicArea" tabindex="-1" role="dialog" aria-labelledby="editScenicAreaLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="editScenicAreaClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editScenicAreaLabel">选择修改内容</h4>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" value="" name="edit-scenic-area-sa-id" id="edit-scenic-area-sa-id">
+            <center>
+              <button type="button" class="btn btn-primary" onclick="editScenicAreaImgHref();">重传照片</button>
+              <button type="button" class="btn btn-success" onclick="editAcenicAreaArHref();">重传AR文件</button>
+              <button type="button" class="btn btn-default" onclick="editScenicAreaIntroHref();">修改简介</button>
+            </center>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a data-toggle="modal" data-target="#editScenicAreaImg" id="editScenicAreaImgHref" onclick="return false;"></a>
+    <div class="modal fade" id="editScenicAreaImg" tabindex="-1" role="dialog" aria-labelledby="editScenicAreaImgLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="editScenicAreaImgClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editScenicAreaImgLabel">重传图片</h4>
+          </div>
+          <div class="modal-body">
+            <form id="editScenicAreaImg1" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="add-scenic-area-img" class="control-label">景点图片:</label>
+                <input type="file" class="form-control" id="edit-scenic-area-img-sa-img" name="sa_img" accept="image/*">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="editScenicAreaImg()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a data-toggle="modal" data-target="#editScenicAreaAr" id="editScenicAreaArHref" onclick="return false;"></a>
+    <div class="modal fade" id="editScenicAreaAr" tabindex="-1" role="dialog" aria-labelledby="editScenicAreaArLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="editScenicAreaArClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editScenicAreaArLabel">重传AR文件</h4>
+          </div>
+          <div class="modal-body">
+            <form id="editScenicAreaAr1" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="edit-scenic-area-ar" class="control-label">AR文件:</label>
+                <input type="file" class="form-control" id="edit-scenic-area-ar" name="sa_ar">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="editScenicAreaAr()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a data-toggle="modal" data-target="#editScenicAreaIntro" id="editScenicAreaIntroHref" onclick="return false;"></a>
+    <div class="modal fade" id="editScenicAreaIntro" tabindex="-1" role="dialog" aria-labelledby="editScenicAreaIntroLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="editScenicAreaIntroClose"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editScenicAreaIntroLabel">修改简介</h4>
+          </div>
+          <div class="modal-body">
+            <form id="editScenicAreaIntro1" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="add-scenic-area-intro" class="control-label">景点简介:</label>
+                <textarea rows="4" name="sa_intro" id="edit-scenic-area-intro" class="control-label"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" onclick="editScenicAreaIntro()">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -617,5 +772,8 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <script src="js/user_information.js"></script>
+    <script src="js/scenic_manage.js"></script>
   </body>
 </html>

@@ -85,4 +85,14 @@ public class CityDao {
         }, cityName);
         return city;
     }
+
+    public void updateCity(City city) {
+        String sql = "update city set city_name=? where city_id=?";
+        jdbcTemplate.update(sql, city.getCityName(), city.getCityId());
+    }
+
+    public void deleteCity(City city) {
+        String sql = "delete from city where city_id=?";
+        jdbcTemplate.update(sql, city.getCityId());
+    }
 }
