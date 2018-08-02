@@ -1,0 +1,210 @@
+1、用户注册：
+url: /user/register
+method: post
+data: phone_number（手机号，11位） password(密码) name（姓名） gender（性别） birth（生日） head_portrait（头像，为图片）
+return: 成功：{'status':'success', 'message':'注册成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“无效的手机号！”“该用户已存在！”“姓名长度不能超过50字节”“性别长度不能超过10字节”“生日长度不能超过15字节”“注册失败，数据库出错！”以及文件操作失败的相关信息
+
+2、用户登录
+url: /user/login
+method: post
+data: phone_number（手机号，11位） password(密码)
+return: 成功：{'status':'success', 'message':'登录成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“无效的电话号！”“没有该用户！”“密码错误！”
+
+3、修改用户信息
+url: /user/update_user_information
+method: post
+data:  name（姓名） gender（性别） birth（生日）
+return: 成功：{'status':'success', 'message':'修改成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“姓名长度超过50字节！”“性别长度超过15字节！”“生日长度大于15”“修改失败！操作数据库出错！”
+
+4、修改头像
+url: /user/update_head_portrait
+method: post
+data:  head_portrait（头像，图片）
+return: 成功：{'status':'success', 'message':'修改头像成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“修改失败！操作数据库失败！”以及文件操作失败的相关信息
+
+5、修改手机号
+url: /user/update_user_phone_number
+method: post
+data:  phone_number（手机号 11位）
+return: 成功：{'status':'success', 'message':'修改成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“无效的手机号！”“修改失败！操作数据库出错！”“该手机号已被注册！”以及文件操作失败的相关信息
+
+6、获取用户信息
+url: /user/get_user_information
+method: get
+data:  无
+return: 成功：{'status':'success', 'user_information':用户信息} 用户信息是一个json， 其中包含phone_number（手机号 11位）name（姓名）gender(性别)birth(生日)user_id（用户id）head_portrait（头像url）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”
+
+7、用户修改密码
+url: /user/reset_password
+method: post
+data:  password（密码）
+return: 成功：{'status':'success', 'message':'修改成功！'} 
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“修改失败！数据库操作失败！”
+
+8、忘记密码
+url: /user/forget_password
+method: post
+data:  phone_number（手机号 11位）password（密码）
+return: 成功：{'status':'success', 'message':'修改成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“该手机号未注册！”“修改失败，操作数据库出错！”
+
+9、获取所有城市信息
+url: /city/get_all
+method: get
+data:  无
+return: 成功：{'status':'success', 'city_list':城市信息列表}城市信息列表是一个包含了所有城市信息的列表。每个城市信息都用json表示，城市信息json内容：city_id（城市编号）city_name（城市名称）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“没有城市信息！”
+
+10、获取城市信息
+url: /city/name/城市名称
+method: get
+data:  无
+return: 成功：{'status':'success', 'city':城市信息}城市信息用json表示，city_id（城市编号）city_name（城市名称）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“没有该城市！”
+
+11、通过城市ID获取景点信息
+url: /scenic_area/city_id/城市ID
+method: get
+data:  无
+return: 成功：{'status':'success', 'scenic_area_list':景点信息列表}景点信息列表还包含该城市所有景点信息，每个景点信息用json表示，sa_id（景点ID）city_id（城市ID）sa_img（景点图片url）sa_ar（景点AR文件url）sa_intro（景点介绍）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“该城市不存在”“该城市没有任何景点！”
+
+12、通过城市名称获取景点信息
+url: /scenic_area/city_name/城市名称
+method: get
+data:  无
+return: 成功：{'status':'success', 'scenic_area_list':景点信息列表}景点信息列表还包含该城市所有景点信息，每个景点信息用json表示，sa_id（景点ID）city_id（城市ID）sa_img（景点图片url）sa_ar（景点AR文件url）sa_intro（景点介绍）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“该城市不存在”“该城市没有任何景点！”
+
+13、通过景点ID获取景点信息
+url: /scenic_area/sa_id/景点ID
+method: get
+data:  无
+return: 成功：{'status':'success', 'scenic_area':景点信息}景点信息用json表示，sa_id（景点ID）city_id（城市ID）sa_img（景点图片url）sa_ar（景点AR文件url）sa_intro（景点介绍）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“没有该景点！”
+
+13、添加旅行计划
+url: /travel/plan/general/add_plan
+method: post
+data:  city_id（城市ID）vehicle（出行方式）begin_date（开始日期）end_date（结束日期）
+return: 成功：{'status':'success', 'message':'添加成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“该城市不存在！”“出行方式长度大于100字节！”“开始日期长度大于19字节！”“结束日期长度大于19字节！”“添加失败，操作数据库失出错！”
+
+14、获取所有旅行计划
+url: /travel/plan/general/all
+method: get
+data:  无
+return: 成功：{'status':'success', 'travel_plan_list':旅行计划列表}旅行计划列表包含所有该用户的旅行计划信息，每个旅行计划信息用json表示，city_id（城市ID）vehicle（出行方式）begin_date（开始日期）end_date（结束日期）travel_id（旅行计划ID）user_id（用户ID）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有旅行计划！”
+
+15、修改旅行计划
+url: /travel/plan/general/update
+method: post
+data:  city_id（城市ID）vehicle（出行方式）begin_date（开始日期）end_date（结束日期）travel_id（旅行计划ID）
+return: 成功：{'status':'success', 'message':'修改成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“该旅行计划不存在！”“没有该城市！”“出行方式长度大于100字节！”“开始日期长度大于19字节！”“结束日期长度大于19字节！”“修改失败，操作数据库出错！”
+
+16、通过旅行计划ID获取旅行计划信息
+url: /travel/plan/general/travel_id/旅行计划ID
+method: get
+data: 无
+return: 成功：{'status':'success', 'travel_plan':旅行计划}旅行计划信息用json表示，city_id（城市ID）vehicle（出行方式）begin_date（开始日期）end_date（结束日期）travel_id（旅行计划ID）user_id（用户ID）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该旅行计划！”“该旅行计划不是该用户的不能获取该旅行计划信息！”
+
+17、添加日旅行计划
+url: /travel/plan/day/add
+method: post
+data: travel_id（旅行计划ID）scenic_area_id（景点ID）vehicle（出行方式）begin_time（开始时间）end_time（结束时间）
+return: 成功：{'status':'success', 'message':'添加成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该旅行计划！”“没有该景点！”“出行方式长度大于100字节！”“开始时间长度大于19字节！”“结束时间长度大于19字节！”“添加失败，操作数据库出错！”“该旅行计划不是该用户的无法添加旅行日计划！”
+
+18、删除旅行计划
+url: /travel/plan/general/delete/travel_id/旅行计划ID
+method: post
+data: 无
+return: 成功：{'status':'success', 'message':'删除成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该旅行计划！”“删除失败，操作数据库失败！但该旅行计划下的所有日计划已经被删除！”“删除失败，操作数据库失败！该旅行计划下的部分日计划可能已经被删除！”“该计划不是该用户的，不能删除！”
+
+
+19、根据旅行计划ID获得日计划
+url: /travel/plan/day/travel_id/旅行计划ID
+method: get
+data: 无
+return: 成功：{'status':'success', 'day_plan_list':日计划列表}日计划列表包含属于该旅行计划下的所有日计划信息，每个日计划信息用json表示，day_id（日计划ID）travel_id（旅行计划ID）scenic_area_id（景点ID）vehicle（出行方式）begin_time（开始时间）end_time（结束时间）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该旅行计划！”“该旅行计划没有日计划！”“该计划不是该用户所建立的，不能获得信息！”
+
+20、根据旅行日计划ID获得日计划
+url: /travel/plan/day/day_id/日计划ID
+method: get
+data: 无
+return: 成功：{'status':'success', 'day_plan':日计划}日计划信息用json表示，day_id（日计划ID）travel_id（旅行计划ID）scenic_area_id（景点ID）vehicle（出行方式）begin_time（开始时间）end_time（结束时间）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该旅行日计划！”“该旅行日计划不是该用户的，不能查看！”
+
+21、修改日计划
+url: /travel/plan/day/update
+method: post
+data: day_id（日计划ID）scenic_area_id（景点ID）vehicle（出行方式）begin_time（开始时间）end_time（结束时间）
+return: 成功：{'status':'success', 'message':'修改成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该旅行日计划！”“修改失败，操作数据库出错！”“该旅行计划不属于该用户，无法修改！”
+
+22、删除旅行日计划
+url: /travel/plan/day/delete/day_id/日计划ID
+method: post
+data: 无
+return: 成功：{'status':'success', 'message':'删除成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该旅行日计划！”“删除失败，操作数据库出错！”“该旅行计划不是该用户的，不能删除！”
+
+23、添加明信片
+url: /post_card/add
+method: post
+data: city_id（城市ID）image（图片）send_word（寄语）
+return: 成功：{'status':'success', 'message':'添加成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该城市！”“寄语长度大于1000字节！”“上传图片出错：（错误信息）”“添加失败，操作数据库出错！”
+
+24、获取所有明信片
+url: /post_card/all
+method: get
+data: 无
+return: 成功：{'status':'success', 'post_card_list':明信片信息列表}明信片信息列表包含该用户所有的明信片信息，每个明信片信息是一个json，pc_id（明信片ID）city_id（城市ID）user_id（用户ID）image（图片url）send_word（寄语）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“该用户没有明信片！”
+
+25、查询明信片
+url: /post_card/pc_id/明信片ID
+method: get
+data: 无
+return: 成功：{'status':'success', 'post_card':明信片信息}明信片信息是一个json，pc_id（明信片ID）city_id（城市ID）user_id（用户ID）image（图片url）send_word（寄语）
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该明信片！”“该明信片不是该用户的，不能查看信息！”
+
+26、修改明信片
+url: /post_card/update
+method: post
+data: pc_id（明信片ID）city_id（城市ID）send_word（寄语）
+return: 成功：{'status':'success', 'message':'修改成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“该明信片不存在！”“该城市不存在！”“寄语长度大于1000字节！”“修改失败，操作数据库出错！”“该明信片不属于该用户，不能修改！”
+
+27、修改明信片图片
+url: /post_card/update_image
+method: post
+data: pc_id（明信片ID）image（图片）
+return: 成功：{'status':'success', 'message':'修改成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该明信片！”“修改失败，操作数据库出错！”“修改失败，操作数据库出错！由于图片类型相同，新上传图片可以正常显示！”“修改失败，操作数据库出错！原图片已经成功删除，可能导致图片无法访问！”“上传图片失败：（失败原因）但是原图片已经删除！”“该明信片不属于该用户，无法更改图片！”
+
+28、删除明信片
+url: /post_card/delete/pc_id/明信片ID
+method: post
+data: 无
+return: 成功：{'status':'success', 'message':'删除成功！'}
+	失败：{'status':'error', 'message':错误信息} 错误信息有：“用户未登录！”“没有该明信片！”“删除失败，操作数据库失败！”“删除失败，操作数据库失败！但明信片中图片已经删除成功！”“该明信片不属于该用户！”
+
+29、退出登录
+url: /user/sign_out
+method: post
+data: 无
+return: 成功：{'status':'success', 'message':'退出成功！'}
+	失败：无
